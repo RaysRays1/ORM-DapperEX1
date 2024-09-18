@@ -12,13 +12,22 @@ var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 string connString = config.GetConnectionString("DefaultConnection");
-IDbConnection conn = new MySqlConnection(connString);
+IDbConnection connection = new MySqlConnection(connString);
 
-var departmentRepo = new DepartmentRepository(conn);
+var departmentRepo = new DepartmentRepository(connection);
 
 var departments = departmentRepo.GetAllDepartments();
 
 foreach (var dept in departments)
 {
     Console.WriteLine($"Name : {dept.Name} | ID: {dept.DepartmentID}");
+    
+}
+var repo = new DapperProductRepository(connection);
+
+var products = repo.GetAllProducts();
+
+foreach (var prod in products)
+{
+    Console.WriteLine($"{prod.ProductID} {prod.Name}");
 }
